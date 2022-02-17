@@ -8,9 +8,26 @@
 <body class="conteudo exercicio">
     <div id="primeiro">#primeiro</div>
     <div>Segundo</div>
-    <div class="terceiro ultimo"><span wb-attrib>.terceiro .ultimo</span></div>
+    <div class="terceiro ultimo"><span wm-attrib>.terceiro .ultimo</span></div>
     <script>              
-        // ...
+        document.querySelector('#primeiro').classList.add('destaque')
+
+        /*querySelectorAll retorna um NodeList ao inves de um 'array HTML'. Ele suporta o forEach 
+        É possível transformar em array utilizando spread [...] ou Array.from()
+        */
+        const selecionar = seletor => document.querySelectorAll(seletor).forEach(e => e.classList.add('destaque'))
+        const deselecionar = seletor => document.querySelectorAll(seletor).forEach(e => e.classList.remove('destaque'))
+
+        selecionar('div')
+        deselecionar('*')
+        selecionar('.terceiro.ultimo')
+        deselecionar('*')
+        selecionar(':not(#primeiro)')
+        deselecionar('*')
+        selecionar('[wm-attrib]')
+        deselecionar('*')
+        selecionar(':nth-child(1)')
+
     </script>
 </body>
 </html>
