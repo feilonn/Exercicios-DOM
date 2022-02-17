@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Selecionar Elementos #01</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body class="conteudo exercicio">
+    <div id="primeiro">#primeiro</div>
+    <div>Segundo</div>
+    <div class="terceiro ultimo">.terceiro .ultimo</div>
+    <script>
+        /* Seleciona elemento com id #primeiro e adiciona a ele a classe .destaque */              
+        document.getElementById('primeiro').classList.add('destaque')
+        
+        /* 
+        OS MÉTODOS getElementsByTagName, getElementsByClassName retornar uma especie de array HTML
+        é preciso convertelos para array com Array.from(), ou com spread [...] ou percorrer com um for do tipo
+        for(let e of arrayHTML)
+        */
+
+        /* Seleciona todos os elementos que sejam do tipo div */
+        const divs = document.getElementsByTagName('div')
+
+        /* Converte para array e percorrer com forEach*/
+        Array.from(divs).forEach( e => {
+            e.classList.remove('destaque')
+        })
+
+        /* Convertendo para array utilizando spread */
+        const divsArray = [...divs]
+        divsArray.forEach(e => e.classList.add('destaque'))
+
+        /* Seleciona todos os elementos com uma class especifica */
+        const ultimosElementos = document.getElementsByClassName('ultimo')
+        /* Percorre o 'array HTML' */
+        for(let e of ultimosElementos){
+            e.classList.remove('destaque')
+        }
+
+    </script>
+</body>
+</html>
