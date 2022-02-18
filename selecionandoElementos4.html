@@ -22,7 +22,51 @@
         <p>Fim</p>
     </div>
     <script>
-        // ...
+        //Captura uma ul que esta dentro de uma div
+        const lista = document.querySelector('div ul')
+
+        //Captura o pai do elemento, nesse caso a div
+        console.log(lista.parentNode)
+
+        //Captura os filhos desse elemento
+        console.log(lista.childNodes)
+
+        //Pega primeiro filho do elemento
+        const primeiro = lista.firstChild
+        console.log(primeiro)
+
+        //Pega o proximo 'irmão' do elemento em questão
+        console.log(primeiro.nextSibling)
+
+        //Pega o ultimo filho do elemento
+        const ultimo = lista.lastChild
+        console.log(ultimo)
+
+        //Pega o 'irmao' anteiror do elemento em questão
+        console.log(ultimo.previousSibling)
+
+        //Pega os filhos do elemento em questão - HTML collection
+        console.log(lista.children)
+
+        //Pega o primeiro filho do elemento em questão
+        console.log(lista.firstElementChild)
+
+        //Pega o ultimo filho do elemento em questão
+        console.log(lista.lastElementChild)
+
+        /*
+        -> Pega o elemento desejado nesse caso 'div ul' (ul dentro de uma div)
+        -> Pega o parentNode, ou seja, o pai desse elemento, o pai da ul é a div
+        -> Pega o previousElementSibling, ou seja, o irmão anterior a essa div
+        */
+        console.log(lista.parentNode.previousElementSibling)
+
+        //Semelhante ao caso anterior, mas pega o irmão que vem posteriormente
+        console.log(lista.parentNode.nextElementSibling)
+
+        //Capturando o elemento desejado de forma mais direta -> uma 'li' que esta em uma 'ul' que esta em uma 'div'
+        console.log(document.querySelectorAll('div ul li'))
+
     </script>
 </body>
 
