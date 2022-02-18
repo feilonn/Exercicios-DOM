@@ -17,7 +17,29 @@
         </ul>
     </div>
     <script>
-        // ...
+        const lista = document.querySelector('#compras')
+
+        //Capturando atributo
+        console.log('getAttribute: ', lista.getAttribute('id'))
+        console.log('getAttributo: ', lista.getAttribute('destino'))
+
+        //Verificando atributo
+        console.log('getAttribute: ', lista.hasAttribute('id'))
+        console.log('getAttributo: ', lista.hasAttribute('sorvete'))
+
+        //Alterando valor do atributo
+        lista.setAttribute('id', 'jacare')
+        lista.setAttribute('destino', 'eai')
+        lista.setAttribute('pizza', 'uva')//Caso o atributo não exista, será criado
+        console.log('getAttribute: ', lista.getAttribute('id'))
+        console.log('getAttributo: ', lista.getAttribute('destino'))
+
+        //Removendo atributo
+        lista.removeAttribute('id')
+
+        //Adicionado atributo para remover elemento do display
+        lista.setAttribute('style', 'display:none;')
+
     </script>
 </body>
 
