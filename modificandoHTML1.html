@@ -9,7 +9,51 @@
 
 <body class='conteudo exercicio'>
     <script>
-        // ...
+        //Capturando o body
+        const body = document.querySelector('body')
+
+        /*
+        - innerHTML ~> Adiciona texto ao elemento html em questão
+        - appendCHild ~> Adiciona elemento em um outro elemento como seu último filho
+        */
+
+        //Criando tag div
+        const div1 = document.createElement('div')
+        //Adicionando ao elemento div o texto 'Primeiro'
+        div1.innerHTML = 'Primeiro'
+        //Adicionando a classe 'destaque à div'
+        div1.classList.add('destaque')
+        //Adicionando a div ao body
+        body.appendChild(div1)
+
+        //Criando tag div
+        const div2 = document.createElement('div')
+        //Setando atributo personalizado para a div
+        div2.setAttribute('wm-atributo', 'opa')
+        //Adicionado texto 'Segundo' à div
+        div2.innerHTML = 'Segundo'
+        //Adicionando div ao body
+        body.appendChild(div2)
+
+        //Criando tag p
+        const p = document.createElement('p')
+        //Adicionando texto 'Terceiro' à tag p
+        p.innerHTML = 'Terceiro'
+        //Criando tag div
+        const div3 = document.createElement('div')
+        //Adicionando elemento p como ultimo filho do elemento div
+        div3.appendChild(p)
+        //Adicionando div ao body, os filhos da div vem junto
+        body.appendChild(div3)
+
+        //Criando clone de uma div
+        const div4 = div3.cloneNode(true)
+        //Adicionando div clone ao body
+        body.appendChild(div4)
+
+        //Removendo div do body
+        body.removeChild(div3)
+
     </script>
 </body>
 
