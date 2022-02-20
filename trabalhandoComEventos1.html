@@ -9,9 +9,27 @@
 
 <body class="conteudo exercicio">
     <div>
-        <a href="https://google.com.br">Google</a>
+        <a aguarda-seconds href="https://google.com.br">Google</a>
     </div>
     <script>
-        // ...
+        //Capturando elemento html desejado através de uma propriedade personalizada, usar '[ colchetes ]'
+        const pegaElemento = document.querySelector('[aguarda-seconds]')
+
+        function navegaSeconds(evento) {
+            //Previne o comportamento padrão do browser de navegar instataneamente
+
+            // IMPORTANTE !!! preventeDefault()
+            evento.preventDefault()
+            let seconds = 5
+            console.log('aguardando ', seconds ,' segundos...')
+            setTimeout(() => {
+                //Capturando o target para pegar o link
+                const link = evento.target
+                //Atribuindo link ao window location href
+                window.location.href = link.href
+            }, seconds * 1000)
+        }
+
+        pegaElemento.onclick = navegaSeconds
     </script>
 </body>
