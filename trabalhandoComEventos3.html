@@ -10,19 +10,19 @@
             margin: 0;
             display: flex;
         }
-        
+
         .esquerda {
             height: 100vh;
             width: 50%;
             background-color: coral;
         }
-        
+
         .direita {
             height: 100vh;
             width: 50%;
             background-color: cornflowerblue;
         }
-        
+
         .item {
             border: solid 5px black;
             background-color: darkgrey;
@@ -45,7 +45,36 @@
     </div>
     <div class="direita" wm-dropzone></div>
     <script>
-        // ...
+        //node list
+        const itens = document.querySelectorAll('[wm-dropzone] .item')
+        //console.log(itens)
+        //forEach com item e seu respectivo 'id'
+        itens.forEach((item, index) => {
+            //Torna o elemento arrastavel
+            item.draggable = true
+            //Caso tenha id mantem, se nao, o id será id='draggable-item-NumeroDoID'
+            item.id = item.id || `draggable-item-${index}`
+            //Captura inicio do drag
+            item.ondragstart = e => 
+                //seta o 'item-id' para o item target do momento
+                e.dataTransfer.setData('item-id', e.target.id)
+            
+        })
+
+        //node list das areas de dropzone
+        const dropzones = document.querySelectorAll('[wm-dropzone]')
+        dropzones.forEach(dropzone => {
+            //Quando acabar o ato de drag, previne o ato default do browser
+            dropzone.ondragover = e => e.preventDefault()
+            dropzone.ondrop = function (e) {
+                //pega o id do item
+                const id = e.dataTransfer.getData('item-id')
+                //captura elemento com o id que foi pego anteriormente
+                const item = document.getElementById(id)
+                //adiciona o elemento como ultimo filho da dropzone
+                dropzone.appendChild(item)
+            }
+        })
     </script>
 </body>
 
