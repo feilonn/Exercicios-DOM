@@ -10,7 +10,7 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         form input,
         form select,
         form button {
@@ -25,12 +25,32 @@
     <form name="pesquisa" action="http://www.google.com.br/search">
         <input type="text" name="q" placeholder="Digite o termo...">
         <select name="hl">
-                <option value="pt-br">Português (Brasil)</option>
-                <option value="en-us">Inglês (Americano)</option>
-            </select>
+            <option value="pt-br">Português (Brasil)</option>
+            <option value="en-us">Inglês (Americano)</option>
+        </select>
         <button wm-submit>Pesquisar</button>
     </form>
     <script>
-        // ...
+        //Capturando o primeiro formulario
+        const form = document.forms[0]
+
+        //chama função quando realiza submite no formulario capturado anteriormente
+        form.onsubmit = e => {
+            //Previne comportamento padrao do browser
+            e.preventDefault()
+            
+            //Captura o form como target
+            const form = e.target
+            const formData = new FormData(form)
+
+            //Verificando se dentro do form existem tais propriedades
+            console.log(formData.get('q'))
+            console.log(formData.has('hl'))
+
+            for(let dado of formData) {
+                console.log(dado)
+            }
+
+        }
     </script>
 </body>
