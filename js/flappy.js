@@ -1,0 +1,68 @@
+function novoElemento(tagName, className) {
+    //criando elemento HTML
+    const elem = document.createElement(tagName)
+    //Atribuindo a classe passando por parametro para o elemento
+    elem.className = className
+    return elem
+}
+
+//'Classe' que modela uma barreira
+function Barreira(reversa = falsa) {
+    //Barreira em sí. this fará com que o elemento seja visto de forma global (public)
+    this.elemento = novoElemento('div', 'barreira')
+
+    //Borda da barreira (parte da boca do cano)
+    const borda = novoElemento('div', 'borda')
+    const corpo = novoElemento('div', 'corpo')
+    //append dentro do element (div.barreira), caso seja reversa adiciona primeiro o corpo do cano, caso não, a boca
+    this.elemento.appendChild(reversa ? corpo : borda)
+    //completa a barreira (cano)
+    this.elemento.appendChild(reversa ? borda : corpo)
+
+    //Função que define a altura do corpo da barreira
+    this.setAltura = altura => corpo.style.height = `${altura}px`
+}
+
+//const barreira = new Barreira(true)
+//barreira.setAltura(200)
+//document.querySelector('[wm-flappy]').appendChild(barreira.elemento)
+
+//'Classe' que constroi um par de Barreira()
+function ParDeBarreiras(altura, abertura, x) {
+    //Cria uma div para o par de barreira cima/baixo
+    this.elemento = novoElemento('div', 'par-de-barreiras')
+    
+    //Barreira cima - reversa ~> corpo e borda
+    this.superior = new Barreira(true)
+    //Barreira baixo - não reversa ~> borda e corpo
+    this.inferior = new Barreira(false)
+
+    //appendChild no this.elemento da 'Classe' Barreira, esse elemento que representa a barreira em sí
+    this.elemento.appendChild(this.superior.elemento)
+    this.elemento.appendChild(this.inferior.elemento)
+
+    //função que gera o local da abertura de forma randomica
+    this.sortearAbertura = () => {
+        const alturaSuperior = Math.random() * (altura - abertura)
+        //A altura inferior é o que sobra da altura da barreira superior mais o espaço da abertura
+        const alturaInferior = altura - abertura - alturaSuperior
+        this.superior.setAltura(alturaSuperior)
+        this.inferior.setAltura(alturaInferior)
+    }
+
+    //Função que pega a posição no eixo 'x' de onde a barreira se encontra
+    //split no atributo left e pegando a primeira parte do array oriundo do split, que é o tamanho e faz-se um cast pra int
+    this.getX = () => parseInt(this.elemento.style.left.split('px')[0])
+
+    //Função que seta a posição no eixo 'x' da barreira
+    this.setX = x => this.elemento.style.left = `${x}px`
+    this.getLargura = () => this.elemento.clientWidth
+
+    //Chamada de funções
+    this.sortearAbertura()
+    this.setX(x)
+}
+
+const b = new ParDeBarreiras(700, 200, 400)
+//'b' é o elemento dom oriundo da instancia de ParDeBarreiras
+document.querySelector('[wm-flappy]').appendChild(b.elemento)
