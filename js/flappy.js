@@ -141,12 +141,49 @@ function Passaro(alturaJogo) {
     this.setY(alturaJogo / 2)
 }
 
+//Função que computa os pontos do jogo
 function Progresso() {
+    //Cria elemento span que mostrará os pontos
     this.elemento = novoElemento('span', 'progresso')
+    //Atualiza os pontos com o innerHTML no span
     this.atualizarPontos = pontos => {
         this.elemento.innerHTML = pontos
     }
+    //Inicia com 0 pontos
     this.atualizarPontos(0)
+}
+
+function sobrepostos(elementoA, elementoB) {
+    //Pega o retangulo que circunda os elementos em questão (Passaro e barreira)
+    const a = elementoA.getBoundingClientRect()
+    const b = elementoB.getBoundingClientRect()
+
+    //Verifica colisão horizontal
+    const horizontal = a.left + a.width >= b.left && b.left + b.width >= a.left
+    //Verifica colisão vertical
+    const vertical = a.top + a.height >= b.top && b.top + b.height >= a.top
+    
+    //Se a colisão ocorrer em ambos os eixos, retorna colisão == true
+    return horizontal && vertical
+}
+
+//Função que verifica colisão
+function colisao(passaro, barreiras) {
+    //Começa como false no start game
+    let colidiu = false
+    //Para cada par de barreiras (cima/baixo) vai verificar se o passaro colidiu com alguma delas
+    barreiras.pares.forEach(parDeBarreiras => {
+        //Se o passaro ainda estiver 'vivo' entra no condicional
+        if(!colidiu) {
+            //Pega as barreiras do par que esta no forEach
+            const superior = parDeBarreiras.superior.elemento
+            const inferior = parDeBarreiras.inferior.elemento
+            //Verifica a colisão, caso colida com a barreira superior ou inferior, colisao == true
+            colidiu = sobrepostos(passaro.elemento, superior) || sobrepostos(passaro.elemento, inferior)
+        }
+    })
+
+    return colidiu
 }
 
 function FlappyBird() {
@@ -168,6 +205,10 @@ function FlappyBird() {
         const timer = setInterval(() => {
             barreiras.animar()
             passaro.animar()
+            //Se colidiu, para o setInterval
+            if(colisao(passaro, barreiras)) {
+                clearInterval(timer)
+            }
         }, 20)
     }
 }
