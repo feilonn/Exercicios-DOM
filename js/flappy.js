@@ -63,6 +63,49 @@ function ParDeBarreiras(altura, abertura, x) {
     this.setX(x)
 }
 
-const b = new ParDeBarreiras(700, 200, 400)
+//const b = new ParDeBarreiras(700, 200, 400)
 //'b' é o elemento dom oriundo da instancia de ParDeBarreiras
-document.querySelector('[wm-flappy]').appendChild(b.elemento)
+//document.querySelector('[wm-flappy]').appendChild(b.elemento)
+
+//Função geradora de barreiras
+function Barreiras(altura, largura, abertura, espaco, notificarPonto) {
+    this.pares = [
+        //Primeira barreira começa logo fora da 'tela' do jogo
+        new ParDeBarreiras(altura, abertura, largura),
+        //Segunda barreira começa da distancia entre ela e a primeira barreira
+        new ParDeBarreiras(altura, abertura, largura + espaco),
+        //A mesma distancia, mas dessa vez conta duas barreiras: a primeira e a segunda
+        new ParDeBarreiras(altura, abertura, largura + espaco * 2),
+        //A mesma distancia, porém conta tres vezes: primeira, segunda e terceira barreiras
+        new ParDeBarreiras(altura, abertura, largura + espaco * 3)
+    ]
+    //Quantidade que irá deslocar em pixel
+    const deslocamento = 3
+    this.animar = () => {
+        this.pares.forEach(par => {
+            par.setX(par.getX() - deslocamento)
+
+            //quando o elemento sair da 'tela' do jogo
+            if(par.getX() < -par.getLargura()) {
+                //Retorna barreira pro final da 'fila' de barreias
+                par.setX(par.getX() + espaco * this.pares.length)
+                //Sorteia uma nova abertura para essa barreira
+                par.sortearAbertura()
+            }
+
+            const meio = largura / 2
+            //Testa para saber se a barreira cruzou o meio da 'tela' do jogo
+            const cruzouOMeio = par.getX() + deslocamento >= meio && par.getX() < meio
+            if(cruzouOMeio){
+                notificarPonto()
+            }
+        })
+    }
+}
+
+const barreiras = new Barreiras(700, 1200, 200, 400)
+const areaDoJogo = document.querySelector('[wm-flappy]')
+barreiras.pares.forEach(par => areaDoJogo.appendChild(par.elemento))
+setInterval(() => {
+    barreiras.animar()
+}, 20)
